@@ -2,8 +2,7 @@
   <div class="nav-wrapper">
     <a routerLink="" class="brand-logo right">JigoroApp</a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
-      <li routerLinkActive="active"><a routerLink="/judocas" [queryParams]="{pagina:1}">Judocas</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['judoca',idJudoca.value]">Judoca com ID</a></li>
+      <li routerLinkActive="active"><a routerLink="/atletas">Atletas</a></li>
       <li routerLinkActive="active"><a routerLink="/competicoes">Competições</a>
       <li routerLinkActive="active"><a routerLink="/login">Login</a>
       </li> 
@@ -11,8 +10,4 @@
   </div>
 </nav>
 
-<div class="container">
-  <p>Entre com o ID do Judoca</p>
-  <input #idJudoca>
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

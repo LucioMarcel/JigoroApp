@@ -1,0 +1,8 @@
+<p>
+  Lista de Atletas
+</p>
+<div class="collection">
+  <a class="collection-item" *ngFor="let atleta of atletas$ | async" [class.selected]="atleta.id === selectedID" [routerLink]="['/atletas',atleta.id]">
+    <span>{{ atleta.id }}</span>{{ atleta.nome }}
+  </a>
+</div>

@@ -1,0 +1,14 @@
+<h4>ATLETA</h4>
+<div *ngIf="atleta$ | async as atleta">
+  <p>{{ atleta.nome }}</p>
+  <div>
+    <label>Id: </label>{{ atleta.id }}
+  </div>
+  <div>
+    <label>Name: </label>
+    <input [(ngModel)]="atleta.nome" placeholder="nome"/>
+  </div>
+  <p>
+    <button (click)="gotoAtleta(atleta)">Back</button>
+  </p>
+</div>
