@@ -35,4 +35,9 @@ export class AtletasDetalheComponent implements OnInit {
     // Include a junk 'foo' property for fun.
     this.router.navigate(['/atletas', { id: atletaId, foo: 'foo' }]);
   }
+
+  add(atleta: Atleta): void{
+    if (!atleta) { return; }
+    this.atleta$ = this.atletaService.addAtleta(atleta);
+  }
 }

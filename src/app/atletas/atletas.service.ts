@@ -22,29 +22,6 @@ export class AtletasService {
     private http: HttpClient
   ) { }
 
-  getAtletas(): Observable<Atleta[]> {
-    return this.http.get<Atleta[]>(this.atletasUrl)
-      .pipe(
-        tap<Atleta[]>(atletas => this.log('fetched atletas')) ,
-        catchError(this.handleError('getAtletas', []))
-      );
-  }
-
-  getAtleta(id: string): Observable<Atleta>{
-    const url = `${this.atletasUrl}/${id}` ;
-    return this.http.get<Atleta>(url).pipe(
-      tap(atleta => this.log(`fetched atleta id=${id}`)),
-      catchError(this.handleError<Atleta>(`atleta id=${id}`))
-    );
-  }
-
-  updateAtleta(atleta: Atleta): Observable<any>{
-    return(this.http.put(this.atletasUrl, atleta, httpOptions)).pipe(
-      tap(_ => this.log(`update alteta id= ${atleta.id}`)),
-      catchError(this.handleError<any>('updateHero'))
-    )
-  }
-
   private log(message: string) {
     console.log('HeroService: ' + message);
   }
@@ -68,4 +45,52 @@ export class AtletasService {
     };
   }
 
+  getAtletas(): Observable<Atleta[]> {
+    return this.http.get<Atleta[]>(this.atletasUrl)
+      .pipe(
+      tap<Atleta[]>(atletas => this.log('fetched atletas')),
+      catchError(this.handleError('getAtletas', []))
+      )
+  }
+
+  getAtleta(id: string): Observable<Atleta> {
+    const url = `${this.atletasUrl}/${id}`;
+    return this.http.get<Atleta>(url).pipe(
+      tap(atleta => this.log(`fetched atleta id=${id}`)),
+      catchError(this.handleError<Atleta>(`atleta id=${id}`))
+    )
+  }
+
+  addAtleta(atleta: Atleta): Observable<Atleta> {
+    return this.http.post<Atleta>(this.atletasUrl, atleta).pipe(
+      tap(atleta => this.log(`added atleta w/ id = ${atleta.id}`)),
+      catchError(this.handleError<Atleta>("addAtleta"))
+    )
+  }
+
+  deleleAtleta(atleta: Atleta | number): Observable<Atleta> {
+    const id: number = typeof atleta === 'number' ? atleta : atleta.id;
+    const url = `${this.atletasUrl}/${id}`;
+    return this.http.delete<Atleta>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted atleta id=${id}`)),
+      catchError(this.handleError<Atleta>('deleteHero'))
+    )
+  }
+
+  updateAtleta(atleta: Atleta): Observable<any> {
+    return (this.http.put(this.atletasUrl, atleta, httpOptions)).pipe(
+      tap(_ => this.log(`update alteta id= ${atleta.id}`)),
+      catchError(this.handleError<any>('updateHero'))
+    )
+  }
+
+  pesquisarAtleta(termo: string): Observable<Atleta[]> {
+    if (!termo.trim) {
+      return of([]);
+    }
+    return this.http.get<Atleta[]>(`api/atletas/?nome=${termo}`).pipe(
+      tap(_ => this.log(`localizado atletas com o termo: ${termo}`)),
+      catchError(this.handleError<Atleta[]>('pesquisarAtleta'))
+    )
+  }
 }
